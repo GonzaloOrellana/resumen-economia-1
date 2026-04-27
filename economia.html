@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Economía — Guía de Estudio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --accent1: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43e97b;
+    --accent4: #f7971e;
+    --accent5: #38d9f5;
+    --glow1: rgba(108,99,255,0.15);
+    --glow2: rgba(255,101,132,0.15);
+    --glow3: rgba(67,233,123,0.15);
+    --glow4: rgba(247,151,30,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--accent1);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover {
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .menu-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .orb1 { width: 50vw; height: 50vw; max-width: 600px; max-height: 600px; background: var(--glow1); top: -10vw; left: -10vw; }
+  .orb2 { width: 40vw; height: 40vw; max-width: 400px; max-height: 400px; background: var(--glow2); bottom: -5vw; right: -5vw; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge span { color: var(--accent3); font-size: 0.65rem; }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .line1 { display: block; color: var(--text); }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+    font-weight: 300;
+  }
+
+  .hero-blocks {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-block-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    font-weight: 500;
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .hero-block-pill:hover { transform: translateY(-2px); border-color: var(--accent1); box-shadow: 0 8px 24px var(--glow1); }
+  .pill-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot1 { background: var(--accent1); }
+  .dot2 { background: var(--accent4); }
+  .dot3 { background: var(--accent2); }
+  .dot4 { background: var(--accent3); }
+
+  /* SECTIONS */
+  section {
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  /* BLOCK CARDS */
+  .block-intro {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .block-intro::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--block-glow);
+    opacity: 0.05;
+  }
+
+  .block-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--block-color);
+    opacity: 0.15;
+    position: absolute;
+    top: -0.5rem;
+    right: 1rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  /* GRID LAYOUTS */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+
+  @media (max-width: 992px) {
+    .grid3 { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    
+    section { padding: 4rem 1.25rem; }
+    .hero { padding: 6rem 1.25rem 4rem; }
+    nav { padding: 1rem 1.25rem; }
+
+    .menu-toggle { display: flex; }
+    
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      transition: clip-path 0.4s ease-in-out;
+    }
+
+    .nav-links.active {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .nav-links li { width: 100%; text-align: center; }
+    .nav-links a { display: block; padding: 1rem; font-size: 1rem; }
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--card-accent, var(--accent1));
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  }
+
+  .card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--card-accent, var(--accent1));
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FORMULA BOX */
+  .formula {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--formula-color, var(--accent1));
+    border-radius: 0 12px 12px 0;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--formula-color, var(--accent1));
+  }
+
+  .formula small {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 0.25rem;
+  }
+
+  /* TABLE */
+  .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  table {
+    width: 100%;
+    min-width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+
+  thead {
+    background: var(--surface2);
+  }
+
+  th {
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 0.8rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text);
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  .td-accent { color: var(--accent1); font-weight: 600; }
+  .td-green { color: var(--accent3); font-weight: 600; }
+  .td-red { color: var(--accent2); font-weight: 600; }
+  .td-yellow { color: var(--accent4); font-weight: 600; }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: linear-gradient(135deg, var(--hl-bg1, rgba(108,99,255,0.08)), var(--hl-bg2, rgba(108,99,255,0.02)));
+    border: 1px solid var(--hl-border, rgba(108,99,255,0.2));
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+  }
+
+  .highlight-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--hl-color, var(--accent1));
+    margin-bottom: 0.5rem;
+  }
+
+  /* CHART CONTAINERS */
+  .chart-container {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .chart-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  canvas {
+    max-width: 100%;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 3rem 0;
+  }
+
+  /* RULE CARDS */
+  .rules {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    font-size: 0.88rem;
+  }
+
+  .rule-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .rule strong {
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--rule-color, var(--accent1));
+    margin-bottom: 0.2rem;
+  }
+
+  .rule p { color: var(--muted); margin: 0; }
+
+  /* MARKET COMPARISON */
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 768px) { .market-grid { grid-template-columns: 1fr; } }
+
+  .market-card {
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .market-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--market-color);
+  }
+
+  .market-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--market-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .market-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    background: var(--market-bg);
+    color: var(--market-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .market-card ul {
+    list-style: none;
+    font-size: 0.83rem;
+    color: var(--muted);
+  }
+
+  .market-card li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .market-card li::before { content: '—'; color: var(--market-color); opacity: 0.5; font-size: 0.7rem; }
+  .market-card li:last-child { border-bottom: none; }
+
+  /* EXAMPLE BOX */
+  .example {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    border-left: 3px solid var(--example-color, var(--accent3));
+  }
+
+  .example-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--example-color, var(--accent3));
+    margin-bottom: 0.4rem;
+  }
+
+  /* SECTION SEPARATOR */
+  .section-sep {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  /* SUMMARY SECTION */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 768px) { .summary-grid { grid-template-columns: 1fr; } }
+
+  .summary-card {
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: var(--surface);
+  }
+
+  .summary-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .summary-card ul { list-style: none; }
+
+  .summary-card li {
+    font-size: 0.82rem;
+    color: var(--muted);
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .summary-card li:last-child { border-bottom: none; }
+  .li-bullet { color: var(--summary-color, var(--accent1)); flex-shrink: 0; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  footer strong { color: var(--accent1); }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    z-index: 200;
+    transition: width 0.1s;
+  }
+
+  /* BACK TO TOP */
+  .back-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .back-top.show { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: var(--accent1); border-color: var(--accent1); transform: translateY(-2px); }
+
+  p { margin-bottom: 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem;
+    color: var(--text);
+  }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 1.5rem 0 0.75rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="back-top" id="backTop">↑</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ECO 101</div>
+  <div class="menu-toggle" id="mobile-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#produccion">Producción</a></li>
+    <li><a href="#costos">Costos</a></li>
+    <li><a href="#mercados">Oferta & Demanda</a></li>
+    <li><a href="#formatos">Formatos</a></li>
+    <li><a href="#resumen">Resumen</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+
+  <div class="hero-badge">
+    <span>●</span> Guía completa para el 1° Parcial
+  </div>
+
+  <h1>
+    <span class="line1">Economía</span>
+    <span class="line2">Fundamentos</span>
+  </h1>
+
+  <p class="hero-sub">Todo lo que necesitás saber sobre producción, costos, oferta y demanda, y formatos de mercado.</p>
+
+  <div class="hero-blocks">
+    <a href="#produccion" class="hero-block-pill"><span class="pill-dot dot1"></span> Bloque 1: Producción</a>
+    <a href="#costos" class="hero-block-pill"><span class="pill-dot dot2"></span> Bloque 2: Costos</a>
+    <a href="#mercados" class="hero-block-pill"><span class="pill-dot dot3"></span> Bloque 3: Mercados</a>
+    <a href="#formatos" class="hero-block-pill"><span class="pill-dot dot4"></span> Bloque 4: Formatos</a>
+  </div>
+</div>
+
+<!-- BLOQUE 1 -->
+<div class="section-sep"></div>
+<section id="produccion">
+  <div class="section-header fade-in">
+    <div class="section-tag" style="color: var(--accent1)">Bloque 1</div>
+    <h1 class="section-title" style="color: var(--accent1)">Producción</h1>
+    <p style="color: var(--muted); margin-top: 0.75rem; max-width: 600px;">Cómo las empresas transforman insumos en productos. Los conceptos clave son el producto marginal, el producto medio y los rendimientos decrecientes.</p>
+  </div>
+
+  <!-- Función de producción -->
+  <div class="fade-in">
+    <h2>Función de Producción</h2>
+    <p>La función de producción muestra la <strong>cantidad máxima de producto</strong> que puede obtenerse con una combinación determinada de insumos (trabajo, tierra, capital), dado el estado de la tecnología.</p>
+
+    <div class="example" style="--example-color: var(--accent1)">
+      <div class="example-label">Ejemplo</div>
+      Una fábrica de zapatos usa trabajadores y máquinas para producir pares de zapatos. Si tiene 5 máquinas fijas y contrata más trabajadores, la función de producción nos dice cuántos pares puede producir con cada cantidad de trabajadores.
+    </div>
+  </div>
+
+  <!-- Tabla de producción -->
+  <div class="fade-in">
+    <h2>Producto Total, Medio y Marginal</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Trabajadores</th>
+            <th>Producto Total</th>
+            <th>Producto Marginal</th>
+            <th>Producto Medio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td class="td-accent">—</td><td>—</td></tr>
+          <tr><td>1</td><td>40</td><td class="td-accent">40</td><td>40.0</td></tr>
+          <tr><td>2</td><td>70</td><td class="td-accent">30</td><td>35.0</td></tr>
+          <tr><td>3</td><td>90</td><td class="td-accent">20</td><td>30.0</td></tr>
+          <tr><td>4</td><td>100</td><td class="td-accent">10</td><td>25.0</td></tr>
+          <tr><td>5</td><td>105</td><td class="td-accent">5</td><td>21.0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid2">
+      <div class="card" style="--card-accent: var(--accent1)">
+        <div class="card-icon">📦</div>
+        <h3>Producto Total (PT)</h3>
+        <p>Cantidad total de producción obtenida con todos los trabajadores.</p>
+      </div>
+      <div class="card" style="--card-accent: var(--accent5)">
+        <div class="card-icon">➕</div>
+        <h3>Producto Marginal (PM)</h3>
+        <p>Lo que <strong>agrega</strong> cada trabajador adicional a la producción total.</p>
+        <div class="formula" style="--formula-color: var(--accent5); margin-top: 1rem; margin-bottom: 0;">PM = ΔPT ÷ ΔTrabajadores</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent4)">
+        <div class="card-icon">📊</div>
+        <h3>Producto Medio (PMe)</h3>
+        <p>Lo que produce <strong>en promedio</strong> cada trabajador.</p>
+        <div class="formula" style="--formula-color: var(--accent4); margin-top: 1rem; margin-bottom: 0;">PMe = PT ÷ Trabajadores</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent2)">
+        <div class="card-icon">⚠️</div>
+        <h3>Regla PM y PMe</h3>
+        <p>Cuando PM &lt; PMe → el promedio <strong>baja</strong>. Igual que cuando sacás una nota menor a tu promedio, este baja.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico producción -->
+  <div class="chart-container fade-in">
+    <div class="chart-title">Producto Total y Producto Marginal</div>
+    <canvas id="chartProduccion" height="280"></canvas>
+  </div>
+
+  <!-- Rendimientos decrecientes -->
+  <div class="fade-in">
+    <h2>Ley de Rendimientos Decrecientes</h2>
+    <div class="highlight" style="--hl-bg1: rgba(108,99,255,0.1); --hl-bg2: rgba(108,99,255,0.03); --hl-border: rgba(108,99,255,0.25); --hl-color: var(--accent1)">
+      <div class="highlight-title">⚡ Ley fundamental</div>
+      A medida que se agregan unidades de un factor variable (trabajo) manteniendo los demás factores fijos, el producto marginal de ese factor tiende a <strong>disminuir</strong>.
+    </div>
+
+    <div class="example" style="--example-color: var(--accent1)">
+      <div class="example-label">¿Por qué ocurre?</div>
+      Imaginá una cocina con <strong>un solo horno fijo</strong>. El 1er cocinero lo usa a full. El 2do ayuda pero ya comparten el horno. El 3ro estorba un poco... Cada trabajador tiene menos capital con qué trabajar → produce menos que el anterior.
+    </div>
+  </div>
+
+  <!-- Corto y largo plazo -->
+  <div class="fade-in">
+    <h2>Corto Plazo vs Largo Plazo</h2>
+    <div class="grid2">
+      <div class="card" style="--card-accent: var(--accent4)">
+        <div class="card-icon">⏱️</div>
+        <h3>Corto Plazo</h3>
+        <p>Al menos un factor es <strong>fijo</strong> (ej: maquinaria, fábrica). Solo podés agregar trabajadores. La ley de rendimientos decrecientes aplica aquí.</p>
+      </div>
+      <div class="card" style="--card-accent: var(--accent3)">
+        <div class="card-icon">📅</div>
+        <h3>Largo Plazo</h3>
+        <p>Todos los factores son <strong>variables</strong>. Podés comprar más máquinas, agrandar la fábrica, cambiar todo. No hay rendimientos decrecientes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOQUE 2 -->
+<div class="section-sep"></div>
+<section id="costos">
+  <div class="section-header fade-in">
+    <div class="section-tag" style="color: var(--accent4)">Bloque 2</div>
+    <h1 class="section-title" style="color: var(--accent4)">Costos</h1>
+    <p style="color: var(--muted); margin-top: 0.75rem; max-width: 600px;">Toda producción tiene un costo. Entender cómo se clasifican y se relacionan los costos es fundamental para comprender las decisiones de las empresas.</p>
+  </div>
+
+  <!-- Tipos de costos -->
+  <div class="fade-in">
+    <h2>Clasificación de los Costos</h2>
+    <div class="grid3">
+      <div class="card" style="--card-accent: var(--accent2)">
+        <div class="card-icon">🔒</div>
+        <h3>Costo Fijo (CF)</h3>
+        <p>No cambia con la producción. Se paga aunque no produzcas nada.</p>
+        <div style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--muted)">Ej: alquiler, seguro, salario del gerente</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent4)">
+        <div class="card-icon">📈</div>
+        <h3>Costo Variable (CV)</h3>
+        <p>Cambia con la producción. Más producción = más costo variable.</p>
+        <div style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--muted)">Ej: materias primas, electricidad, obreros</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent1)">
+        <div class="card-icon">🔢</div>
+        <h3>Costo Total (CT)</h3>
+        <p>La suma de todo.</p>
+        <div class="formula" style="--formula-color: var(--accent1); margin-top: 0.75rem; margin-bottom: 0; font-size: 0.9rem;">CT = CF + CV</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla costos -->
+  <div class="fade-in">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Producción (Q)</th>
+            <th>CF</th>
+            <th>CV</th>
+            <th>CT</th>
+            <th>CM</th>
+            <th>CMe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>100</td><td>0</td><td class="td-accent">100</td><td>—</td><td>—</td></tr>
+          <tr><td>1</td><td>100</td><td>40</td><td class="td-accent">140</td><td class="td-yellow">40</td><td>140</td></tr>
+          <tr><td>2</td><td>100</td><td>70</td><td class="td-accent">170</td><td class="td-yellow">30</td><td>85</td></tr>
+          <tr><td>3</td><td>100</td><td>90</td><td class="td-accent">190</td><td class="td-yellow">20</td><td>63</td></tr>
+          <tr><td>4</td><td>100</td><td>120</td><td class="td-accent">220</td><td class="td-yellow">30</td><td>55</td></tr>
+          <tr><td>5</td><td>100</td><td>160</td><td class="td-accent">260</td><td class="td-yellow">40</td><td>52</td></tr>
+          <tr><td>6</td><td>100</td><td>220</td><td class="td-accent">320</td><td class="td-red">60</td><td>53</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CM y CMe -->
+  <div class="fade-in">
+    <h2>Costo Marginal y Costo Medio</h2>
+    <div class="grid2">
+      <div>
+        <div class="card" style="--card-accent: var(--accent4)">
+          <div class="card-icon">⚡</div>
+          <h3>Costo Marginal (CM)</h3>
+          <p>Costo adicional de producir <strong>una unidad más</strong>.</p>
+          <div class="formula" style="--formula-color: var(--accent4); margin-top: 1rem; margin-bottom: 0;">CM = ΔCT ÷ ΔQ</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="--card-accent: var(--accent5)">
+          <div class="card-icon">📉</div>
+          <h3>Costo Medio (CMe)</h3>
+          <p>Costo <strong>promedio</strong> por unidad producida.</p>
+          <div class="formula" style="--formula-color: var(--accent5); margin-top: 1rem; margin-bottom: 0;">CMe = CT ÷ Q</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico costos -->
+  <div class="chart-container fade-in">
+    <div class="chart-title">Curvas de Costo Marginal y Costo Medio</div>
+    <canvas id="chartCostos" height="280"></canvas>
+  </div>
+
+  <!-- Reglas CM y CMe -->
+  <div class="fade-in">
+    <h2>Reglas Clave del Parcial 📝</h2>
+    <div class="rules">
+      <div class="rule" style="--rule-color: var(--accent3)">
+        <div class="rule-icon">↓</div>
+        <div>
+          <strong>CM &lt; CMe → CMe baja</strong>
+          <p>La última unidad cuesta menos que el promedio → el promedio baja.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rule-color: var(--accent2)">
+        <div class="rule-icon">↑</div>
+        <div>
+          <strong>CM &gt; CMe → CMe sube</strong>
+          <p>La última unidad cuesta más que el promedio → el promedio sube.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rule-color: var(--accent1)">
+        <div class="rule-icon">✕</div>
+        <div>
+          <strong>CM = CMe → mínimo del CMe</strong>
+          <p>El CM siempre cruza al CMe en su punto mínimo. La curva CM tiene forma de U.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rule-color: var(--accent4)">
+        <div class="rule-icon">🔗</div>
+        <div>
+          <strong>CM y Producto Marginal son imágenes espejo</strong>
+          <p>Cuando el PM sube → el CM baja. Cuando llegan los rendimientos decrecientes (PM baja) → el CM sube.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOQUE 3 -->
+<div class="section-sep"></div>
+<section id="mercados">
+  <div class="section-header fade-in">
+    <div class="section-tag" style="color: var(--accent2)">Bloque 3</div>
+    <h1 class="section-title" style="color: var(--accent2)">Oferta & Demanda</h1>
+    <p style="color: var(--muted); margin-top: 0.75rem; max-width: 600px;">Las fuerzas del mercado. La interacción entre compradores y vendedores determina precios y cantidades.</p>
+  </div>
+
+  <!-- Demanda -->
+  <div class="fade-in">
+    <h2>La Demanda</h2>
+    <div class="highlight" style="--hl-bg1: rgba(255,101,132,0.1); --hl-bg2: rgba(255,101,132,0.03); --hl-border: rgba(255,101,132,0.25); --hl-color: var(--accent2)">
+      <div class="highlight-title">⚡ Ley de la Demanda</div>
+      Cuando el precio sube → la cantidad demandada <strong>baja</strong>. Relación <strong>inversa</strong>. La curva tiene pendiente negativa.
+    </div>
+
+    <div class="grid2">
+      <div class="card" style="--card-accent: var(--accent2)">
+        <div class="card-icon">🔄</div>
+        <h3>Efecto Sustitución</h3>
+        <p>Si sube el precio de Coca Cola → comprás Pepsi. Sustituís el bien caro por uno más barato.</p>
+      </div>
+      <div class="card" style="--card-accent: var(--accent2)">
+        <div class="card-icon">💸</div>
+        <h3>Efecto Ingreso</h3>
+        <p>Si sube el precio → tu poder de compra baja. Tu sueldo no cambió pero "te alcanza menos".</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico demanda -->
+  <div class="chart-container fade-in">
+    <div class="chart-title">Curva de Demanda — pendiente negativa</div>
+    <canvas id="chartDemanda" height="260"></canvas>
+  </div>
+
+  <!-- Desplazamientos demanda -->
+  <div class="fade-in">
+    <h2>Desplazamientos de la Demanda</h2>
+    <p>Cuando cambia algo <strong>distinto al precio</strong>, la curva entera se desplaza.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>Efecto en la demanda</th>
+            <th>Dirección</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ingreso de consumidores sube</td><td class="td-green">Sube</td><td>→ Derecha</td></tr>
+          <tr><td>Precio de bien sustituto sube</td><td class="td-green">Sube</td><td>→ Derecha</td></tr>
+          <tr><td>Gustos cambian a favor</td><td class="td-green">Sube</td><td>→ Derecha</td></tr>
+          <tr><td>Ingreso de consumidores baja</td><td class="td-red">Baja</td><td>← Izquierda</td></tr>
+          <tr><td>Precio de bien complementario sube</td><td class="td-red">Baja</td><td>← Izquierda</td></tr>
+          <tr><td>Gustos cambian en contra</td><td class="td-red">Baja</td><td>← Izquierda</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Oferta -->
+  <div class="fade-in">
+    <h2>La Oferta</h2>
+    <div class="highlight" style="--hl-bg1: rgba(67,233,123,0.1); --hl-bg2: rgba(67,233,123,0.03); --hl-border: rgba(67,233,123,0.25); --hl-color: var(--accent3)">
+      <div class="highlight-title">⚡ Ley de la Oferta</div>
+      Cuando el precio sube → la cantidad ofrecida <strong>sube</strong>. Relación <strong>directa</strong>. La curva tiene pendiente positiva.
+    </div>
+
+    <div class="table-wrap" style="margin-top: 1.5rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>Efecto en la oferta</th>
+            <th>Dirección</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Costo de producción baja</td><td class="td-green">Sube</td><td>→ Derecha</td></tr>
+          <tr><td>Tecnología mejora</td><td class="td-green">Sube</td><td>→ Derecha</td></tr>
+          <tr><td>Precio de insumos sube</td><td class="td-red">Baja</td><td>← Izquierda</td></tr>
+          <tr><td>Impuestos suben</td><td class="td-red">Baja</td><td>← Izquierda</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Equilibrio -->
+  <div class="fade-in">
+    <h2>Equilibrio de Mercado</h2>
+    <p>Cuando juntamos oferta y demanda, encontramos el punto donde la cantidad que quieren comprar los consumidores es <strong>exactamente igual</strong> a la que quieren vender los productores.</p>
+
+    <div class="chart-container">
+      <div class="chart-title">Equilibrio de Mercado — Oferta y Demanda</div>
+      <canvas id="chartEquilibrio" height="280"></canvas>
+    </div>
+
+    <div class="highlight" style="--hl-bg1: rgba(56,217,245,0.08); --hl-bg2: rgba(56,217,245,0.02); --hl-border: rgba(56,217,245,0.2); --hl-color: var(--accent5)">
+      <div class="highlight-title">📌 Reglas del equilibrio</div>
+      <div style="display: grid; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.88rem;">
+        <div>📌 Demanda sube → Precio <strong style="color:var(--accent3)">↑</strong> Cantidad <strong style="color:var(--accent3)">↑</strong></div>
+        <div>📌 Demanda baja → Precio <strong style="color:var(--accent2)">↓</strong> Cantidad <strong style="color:var(--accent2)">↓</strong></div>
+        <div>📌 Oferta sube → Precio <strong style="color:var(--accent2)">↓</strong> Cantidad <strong style="color:var(--accent3)">↑</strong></div>
+        <div>📌 Oferta baja → Precio <strong style="color:var(--accent3)">↑</strong> Cantidad <strong style="color:var(--accent2)">↓</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elasticidad -->
+  <div class="fade-in">
+    <h2>Elasticidad-Precio</h2>
+    <p>Mide <strong>qué tan sensible</strong> es la cantidad demandada ante un cambio en el precio.</p>
+
+    <div class="formula" style="--formula-color: var(--accent2)">
+      Elasticidad = % cambio en cantidad demandada ÷ % cambio en precio
+    </div>
+
+    <div class="grid3">
+      <div class="card" style="--card-accent: var(--accent3)">
+        <div class="card-icon">🏃</div>
+        <h3>Elástica (E &gt; 1)</h3>
+        <p>La cantidad cambia <strong>mucho</strong> ante cambios de precio.</p>
+        <div style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--muted)">Ej: viajes de lujo, electrónica</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent4)">
+        <div class="card-icon">⚖️</div>
+        <h3>Unitaria (E = 1)</h3>
+        <p>La cantidad cambia <strong>igual</strong> que el precio.</p>
+        <div style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--muted)">Los ingresos no cambian</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent2)">
+        <div class="card-icon">🪨</div>
+        <h3>Inelástica (E &lt; 1)</h3>
+        <p>La cantidad cambia <strong>poco</strong> ante cambios de precio.</p>
+        <div style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--muted)">Ej: insulina, sal, electricidad</div>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top: 1.5rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Si el precio baja...</th>
+            <th>Ingresos de la empresa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-green">Elástica</td><td>Ventas suben mucho</td><td class="td-green">Suben ↑</td></tr>
+          <tr><td class="td-yellow">Unitaria</td><td>Ventas suben igual</td><td class="td-yellow">No cambian →</td></tr>
+          <tr><td class="td-red">Inelástica</td><td>Ventas suben poco</td><td class="td-red">Bajan ↓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- BLOQUE 4 -->
+<div class="section-sep"></div>
+<section id="formatos">
+  <div class="section-header fade-in">
+    <div class="section-tag" style="color: var(--accent3)">Bloque 4</div>
+    <h1 class="section-title" style="color: var(--accent3)">Formatos de Mercado</h1>
+    <p style="color: var(--muted); margin-top: 0.75rem; max-width: 600px;">No todos los mercados son iguales. Se clasifican según cuántas empresas hay y qué tanto control tienen sobre el precio.</p>
+  </div>
+
+  <!-- Tabla comparativa -->
+  <div class="fade-in">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Formato</th>
+            <th>N° de empresas</th>
+            <th>Producto</th>
+            <th>Control precio</th>
+            <th>Ejemplo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-accent">Competencia Perfecta</td>
+            <td>Muchísimas</td>
+            <td>Idéntico</td>
+            <td class="td-green">Ninguno</td>
+            <td>Trigo, maíz</td>
+          </tr>
+          <tr>
+            <td class="td-yellow">Comp. Monopolística</td>
+            <td>Muchas</td>
+            <td>Diferenciado</td>
+            <td class="td-yellow">Poco</td>
+            <td>Restaurantes, shampoos</td>
+          </tr>
+          <tr>
+            <td style="color:var(--accent5)">Oligopolio</td>
+            <td>Pocas</td>
+            <td>Igual o diferenciado</td>
+            <td style="color:var(--accent5)">Bastante</td>
+            <td>Autos, aerolíneas</td>
+          </tr>
+          <tr>
+            <td class="td-red">Monopolio</td>
+            <td>Una sola</td>
+            <td>Sin sustitutos</td>
+            <td class="td-red">Total</td>
+            <td>Agua potable, Windows</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 4 market cards -->
+  <div class="market-grid fade-in">
+    <div class="market-card" style="--market-color: var(--accent1); --market-bg: rgba(108,99,255,0.1); border-color: rgba(108,99,255,0.2); background: rgba(108,99,255,0.04);">
+      <div class="market-tag">Competencia Perfecta</div>
+      <h3>El mercado ideal</h3>
+      <ul>
+        <li>Muchas empresas pequeñas</li>
+        <li>Producto completamente idéntico</li>
+        <li>Ninguna empresa fija el precio</li>
+        <li>Libre entrada y salida</li>
+        <li>Máxima eficiencia para consumidores</li>
+      </ul>
+      <div class="formula" style="--formula-color: var(--accent1); margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem;">Precio = Costo Marginal</div>
+    </div>
+
+    <div class="market-card" style="--market-color: var(--accent4); --market-bg: rgba(247,151,30,0.1); border-color: rgba(247,151,30,0.2); background: rgba(247,151,30,0.04);">
+      <div class="market-tag">Competencia Monopolística</div>
+      <h3>Muchos con diferencias</h3>
+      <ul>
+        <li>Muchas empresas compitiendo</li>
+        <li>Productos diferenciados</li>
+        <li>Poco control del precio</li>
+        <li>Libre entrada y salida</li>
+        <li>Beneficios = 0 en el largo plazo</li>
+      </ul>
+      <div class="formula" style="--formula-color: var(--accent4); margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem;">IM = CM, Precio > CM</div>
+    </div>
+
+    <div class="market-card" style="--market-color: var(--accent5); --market-bg: rgba(56,217,245,0.1); border-color: rgba(56,217,245,0.2); background: rgba(56,217,245,0.04);">
+      <div class="market-tag">Oligopolio</div>
+      <h3>Pocos, pero interdependientes</h3>
+      <ul>
+        <li>Pocas empresas dominan</li>
+        <li>Alta interdependencia estratégica</li>
+        <li>Posible colusión (ilegal)</li>
+        <li>Guerras de precios posibles</li>
+        <li>Barreras de entrada altas</li>
+      </ul>
+      <div class="formula" style="--formula-color: var(--accent5); margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem;">Depende de la estrategia</div>
+    </div>
+
+    <div class="market-card" style="--market-color: var(--accent2); --market-bg: rgba(255,101,132,0.1); border-color: rgba(255,101,132,0.2); background: rgba(255,101,132,0.04);">
+      <div class="market-tag">Monopolio</div>
+      <h3>Un solo vendedor</h3>
+      <ul>
+        <li>Una sola empresa en el mercado</li>
+        <li>Sin sustitutos cercanos</li>
+        <li>Control total del precio</li>
+        <li>Produce menos, cobra más</li>
+        <li>Peor para consumidores</li>
+      </ul>
+      <div class="formula" style="--formula-color: var(--accent2); margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem;">IM = CM, Precio > CM</div>
+    </div>
+  </div>
+
+  <!-- Gráfico monopolio -->
+  <div class="chart-container fade-in">
+    <div class="chart-title">Monopolio vs Competencia Perfecta</div>
+    <canvas id="chartMonopolio" height="280"></canvas>
+  </div>
+
+  <!-- Por qué el monopolio es malo -->
+  <div class="fade-in">
+    <h2>¿Por qué el Monopolio perjudica a los consumidores?</h2>
+    <div class="rules">
+      <div class="rule" style="--rule-color: var(--accent2)">
+        <div class="rule-icon">💰</div>
+        <div>
+          <strong>Precio más alto</strong>
+          <p>Los consumidores pagan más de lo que pagarían en competencia perfecta.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rule-color: var(--accent2)">
+        <div class="rule-icon">📦</div>
+        <div>
+          <strong>Producción menor</strong>
+          <p>El monopolista produce menos para mantener el precio alto → escasez artificial.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rule-color: var(--accent2)">
+        <div class="rule-icon">⚡</div>
+        <div>
+          <strong>Ineficiencia económica</strong>
+          <p>Precio &gt; Costo Marginal → hay consumidores que querrían comprar pero no pueden porque el precio es demasiado alto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUMEN -->
+<div class="section-sep"></div>
+<section id="resumen">
+  <div class="section-header fade-in">
+    <div class="section-tag" style="color: var(--accent5)">Resumen</div>
+    <h1 class="section-title">Todo en un vistazo</h1>
+    <p style="color: var(--muted); margin-top: 0.75rem;">Las reglas más importantes para recordar en el parcial.</p>
+  </div>
+
+  <div class="summary-grid fade-in">
+    <div class="summary-card" style="--summary-color: var(--accent1)">
+      <h3 style="color: var(--accent1)">🏭 Bloque 1 — Producción</h3>
+      <ul>
+        <li><span class="li-bullet">▸</span>PM = lo que agrega cada trabajador nuevo</li>
+        <li><span class="li-bullet">▸</span>PMe = PT ÷ trabajadores</li>
+        <li><span class="li-bullet">▸</span>Rendimientos decrecientes: factor fijo limita</li>
+        <li><span class="li-bullet">▸</span>Corto plazo: al menos un factor fijo</li>
+        <li><span class="li-bullet">▸</span>Largo plazo: todos los factores variables</li>
+        <li><span class="li-bullet">▸</span>Cuando PM &lt; PMe → PMe baja</li>
+      </ul>
+    </div>
+
+    <div class="summary-card" style="--summary-color: var(--accent4)">
+      <h3 style="color: var(--accent4)">💰 Bloque 2 — Costos</h3>
+      <ul>
+        <li><span class="li-bullet">▸</span>CT = CF + CV</li>
+        <li><span class="li-bullet">▸</span>CM = ΔCT ÷ ΔQ</li>
+        <li><span class="li-bullet">▸</span>CMe = CT ÷ Q</li>
+        <li><span class="li-bullet">▸</span>CM cruza CMe en su mínimo</li>
+        <li><span class="li-bullet">▸</span>CM y PM son imágenes espejo</li>
+        <li><span class="li-bullet">▸</span>Curva CM tiene forma de U</li>
+      </ul>
+    </div>
+
+    <div class="summary-card" style="--summary-color: var(--accent2)">
+      <h3 style="color: var(--accent2)">📊 Bloque 3 — Oferta & Demanda</h3>
+      <ul>
+        <li><span class="li-bullet">▸</span>Demanda: precio sube → cantidad baja</li>
+        <li><span class="li-bullet">▸</span>Oferta: precio sube → cantidad sube</li>
+        <li><span class="li-bullet">▸</span>Equilibrio: oferta = demanda</li>
+        <li><span class="li-bullet">▸</span>Elasticidad &gt; 1 = elástica</li>
+        <li><span class="li-bullet">▸</span>Elasticidad &lt; 1 = inelástica</li>
+        <li><span class="li-bullet">▸</span>Elástica: precio baja → ingresos suben</li>
+      </ul>
+    </div>
+
+    <div class="summary-card" style="--summary-color: var(--accent3)">
+      <h3 style="color: var(--accent3)">🏪 Bloque 4 — Formatos de Mercado</h3>
+      <ul>
+        <li><span class="li-bullet">▸</span>Comp. Perfecta: Precio = CM</li>
+        <li><span class="li-bullet">▸</span>Monopolio: IM = CM, Precio &gt; CM</li>
+        <li><span class="li-bullet">▸</span>Oligopolio: interdependencia estratégica</li>
+        <li><span class="li-bullet">▸</span>Comp. Monopolística: diferenciación</li>
+        <li><span class="li-bullet">▸</span>Mejor para consumidor: Comp. Perfecta</li>
+        <li><span class="li-bullet">▸</span>Peor para consumidor: Monopolio</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Creado para el <strong>1° Parcial de Economía</strong> · Basado en Samuelson</p>
+  <p style="margin-top: 0.5rem; font-size: 0.72rem;">¡Mucha suerte! 🚀</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// Mobile menu toggle
+const mobileMenu = document.getElementById('mobile-menu');
+const navLinks = document.querySelector('.nav-links');
+const navItems = document.querySelectorAll('.nav-links a');
+
+mobileMenu.addEventListener('click', () => {
+  mobileMenu.classList.toggle('active');
+  navLinks.classList.toggle('active');
+});
+
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    navLinks.classList.remove('active');
+  });
+});
+
+// Progress bar
+const progress = document.getElementById('progress');
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progress.style.width = pct + '%';
+  backTop.classList.toggle('show', window.scrollY > 400);
+});
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// Fade in observer
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Chart defaults
+Chart.defaults.color = '#7070a0';
+Chart.defaults.borderColor = '#2a2a3a';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+// CHART 1 — Producción
+new Chart(document.getElementById('chartProduccion'), {
+  type: 'bar',
+  data: {
+    labels: ['1', '2', '3', '4', '5'],
+    datasets: [
+      {
+        label: 'Producto Total',
+        data: [40, 70, 90, 100, 105],
+        backgroundColor: 'rgba(108,99,255,0.2)',
+        borderColor: '#6c63ff',
+        borderWidth: 2,
+        borderRadius: 6,
+        yAxisID: 'y',
+      },
+      {
+        label: 'Producto Marginal',
+        data: [40, 30, 20, 10, 5],
+        type: 'line',
+        borderColor: '#f7971e',
+        backgroundColor: 'rgba(247,151,30,0.1)',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        pointBackgroundColor: '#f7971e',
+        tension: 0.4,
+        yAxisID: 'y1',
+        fill: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      y: { position: 'left', title: { display: true, text: 'Producto Total', color: '#6c63ff' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+      y1: { position: 'right', title: { display: true, text: 'Producto Marginal', color: '#f7971e' }, grid: { drawOnChartArea: false } }
+    }
+  }
+});
+
+// CHART 2 — Costos
+const qArr = [1,2,3,4,5,6];
+const cm = [40, 30, 20, 30, 40, 60];
+const cme = [140, 85, 63, 55, 52, 53];
+new Chart(document.getElementById('chartCostos'), {
+  type: 'line',
+  data: {
+    labels: qArr,
+    datasets: [
+      {
+        label: 'Costo Marginal (CM)',
+        data: cm,
+        borderColor: '#f7971e',
+        backgroundColor: 'rgba(247,151,30,0.1)',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        pointBackgroundColor: '#f7971e',
+        tension: 0.4,
+      },
+      {
+        label: 'Costo Medio (CMe)',
+        data: cme,
+        borderColor: '#38d9f5',
+        backgroundColor: 'rgba(56,217,245,0.1)',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        pointBackgroundColor: '#38d9f5',
+        tension: 0.4,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      annotation: {}
+    },
+    scales: {
+      x: { title: { display: true, text: 'Cantidad (Q)' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+      y: { title: { display: true, text: 'Costo ($)' }, grid: { color: 'rgba(255,255,255,0.04)' } }
+    }
+  }
+});
+
+// CHART 3 — Demanda
+const prices = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
+const qdDemanda = [10, 20, 30, 40, 55, 70, 85, 100, 115, 130];
+new Chart(document.getElementById('chartDemanda'), {
+  type: 'line',
+  data: {
+    labels: qdDemanda,
+    datasets: [{
+      label: 'Curva de Demanda',
+      data: prices,
+      borderColor: '#ff6584',
+      backgroundColor: 'rgba(255,101,132,0.08)',
+      borderWidth: 2.5,
+      pointRadius: 4,
+      pointBackgroundColor: '#ff6584',
+      tension: 0.1,
+      fill: true,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      x: { title: { display: true, text: 'Cantidad demandada' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+      y: { title: { display: true, text: 'Precio ($)' }, grid: { color: 'rgba(255,255,255,0.04)' } }
+    }
+  }
+});
+
+// CHART 4 — Equilibrio
+const qEq = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+const demand = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
+const supply = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+new Chart(document.getElementById('chartEquilibrio'), {
+  type: 'line',
+  data: {
+    labels: qEq,
+    datasets: [
+      {
+        label: 'Demanda',
+        data: demand,
+        borderColor: '#ff6584',
+        backgroundColor: 'transparent',
+        borderWidth: 2.5,
+        pointRadius: 3,
+        tension: 0.1,
+      },
+      {
+        label: 'Oferta',
+        data: supply,
+        borderColor: '#43e97b',
+        backgroundColor: 'transparent',
+        borderWidth: 2.5,
+        pointRadius: 3,
+        tension: 0.1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          afterBody: (items) => {
+            if (items[0].dataIndex === 4) return ['← PUNTO DE EQUILIBRIO'];
+          }
+        }
+      }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Cantidad' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+      y: { title: { display: true, text: 'Precio ($)' }, grid: { color: 'rgba(255,255,255,0.04)' } }
+    }
+  }
+});
+
+// CHART 5 — Monopolio
+const qMono = [10, 20, 30, 40, 50, 60, 70, 80];
+const demandMono = [90, 80, 70, 60, 50, 40, 30, 20];
+const imMono = [90, 70, 50, 30, 10, -10, -30, -50];
+const cmMono = [20, 20, 20, 20, 20, 20, 20, 20];
+new Chart(document.getElementById('chartMonopolio'), {
+  type: 'line',
+  data: {
+    labels: qMono,
+    datasets: [
+      {
+        label: 'Demanda (D)',
+        data: demandMono,
+        borderColor: '#ff6584',
+        backgroundColor: 'transparent',
+        borderWidth: 2.5,
+        pointRadius: 3,
+        tension: 0.1,
+      },
+      {
+        label: 'Ingreso Marginal (IM)',
+        data: imMono,
+        borderColor: '#f7971e',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        pointRadius: 3,
+        tension: 0.1,
+      },
+      {
+        label: 'Costo Marginal (CM)',
+        data: cmMono,
+        borderColor: '#43e97b',
+        backgroundColor: 'transparent',
+        borderWidth: 2.5,
+        pointRadius: 3,
+        tension: 0.1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+    },
+    scales: {
+      x: { title: { display: true, text: 'Cantidad' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+      y: { title: { display: true, text: 'Precio / Costo ($)' }, grid: { color: 'rgba(255,255,255,0.04)' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
